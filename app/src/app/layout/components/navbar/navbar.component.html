@@ -1,0 +1,15 @@
+<div class="navbar">
+  <div class="navbar-items">
+    <span routerLink="/">Home</span>
+    <span routerLink="/products/product-list">Products</span>
+  </div>
+  <div class="user-info">
+    <span routerLink="/cart/main">Cart</span>
+    <ng-template >
+      <span routerLink="/auth/authorization">Login / Register</span>
+    </ng-template>
+  </div>
+</div>
+<div class="router">
+  <router-outlet></router-outlet>
+</div>
