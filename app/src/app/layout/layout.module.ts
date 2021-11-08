@@ -19,11 +19,11 @@ const ROUTES: Routes = [
         path: 'home',
         component: HomeComponent,
       },
-      // {
-      //   path: 'products',
-      //   loadChildren: () =>
-      //     import('../products/products.module').then((m) => m.ProductsModule),
-      // },
+      {
+        path: 'student',
+        loadChildren: () =>
+          import('../student/student.module').then((m) => m.StudentModule),
+      },
       // {
       //   path: 'auth',
       //   loadChildren: () =>
