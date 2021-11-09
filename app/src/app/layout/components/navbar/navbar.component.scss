@@ -13,6 +13,9 @@
     align-items: center;
     span {
       cursor: pointer;
+      border: 2px solid rgb(26, 141, 207);
+      border-radius: 8px;
+      padding: 3px;
     }
   }
   .user-info {
