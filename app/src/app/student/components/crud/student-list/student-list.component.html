@@ -1,1 +1,82 @@
-<p>student-list works!</p>
+<mat-table #table [dataSource]="dataSource" matSort>
+  <ng-container matColumnDef="Name">
+    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+    <mat-cell *matCellDef="let user">
+      <ng-container
+        *ngIf="!editUsr || !user.Name || user.Name !== editUsr.Name"
+      >
+        <p>{{ user.Name }}</p>
+      </ng-container>
+      <ng-container *ngIf="editUsr && user.Name && user.Name === editUsr.Name">
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            placeholder="Name Name"
+            [disabled]="editdisabled"
+            name="name"
+            [(ngModel)]="user.Name"
+          />
+        </mat-form-field>
+      </ng-container>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="Status">
+    <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+    <mat-cell *matCellDef="let user">
+      <ng-container
+        *ngIf="!editUsr || !user.Name || user.Name !== editUsr.Name"
+      >
+        <p>{{ user.Status }}</p>
+      </ng-container>
+      <ng-container *ngIf="editUsr && user.Name && user.Name === editUsr.Name">
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            placeholder="Status"
+            [disabled]="editdisabled"
+            name="status"
+            [(ngModel)]="user.Status"
+          />
+        </mat-form-field>
+      </ng-container>
+    </mat-cell>
+  </ng-container>
+  <!-- ACTION -->
+  <ng-container matColumnDef="action">
+    <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+    <mat-cell *matCellDef="let user">
+      <ng-container
+        *ngIf="!editUsr || !user.Name || user.Name !== editUsr.Name"
+      >
+        <mat-icon matTooltip="edit" (click)="editROw(user)">edit</mat-icon>
+      </ng-container>
+      <ng-container *ngIf="editUsr && user.Name && user.Name === editUsr.Name">
+        <button
+          mat-raised-button
+          color="accent"
+          matTooltip="Update"
+          class="mr-10 mb-6"
+          [disabled]="editdisabled"
+          (click)="updateEdit()"
+        >
+          Update
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          matTooltip="Cancel"
+          [disabled]="editdisabled"
+          (click)="cancelEdit()"
+        >
+          Cancel
+        </button>
+      </ng-container>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row
+    *matHeaderRowDef="displayedColumns; sticky: true"
+  ></mat-header-row>
+
+  <mat-row *matRowDef="let user; columns: displayedColumns"></mat-row>
+</mat-table>
