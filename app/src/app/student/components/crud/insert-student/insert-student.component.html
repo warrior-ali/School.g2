@@ -1,40 +1,41 @@
 <div class="main-box">
-    <form [formGroup]="form">
-      <mat-form-field appearance="outline">
-        <mat-label>First Name</mat-label>
-        <input required formControlName="first_name" matInput type="text" />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Last Name</mat-label>
-        <input required formControlName="last_name" matInput type="text" />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Username</mat-label>
-        <input required formControlName="username" matInput />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-        <input required formControlName="password" matInput type="password" />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Email</mat-label>
-        <input required formControlName="email" matInput type="email" />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Phone Number</mat-label>
-        <input required formControlName="phone_number" matInput type="number" />
-      </mat-form-field>
-    </form>
-    <div class="button-section">
-      <button
-        mat-raised-button
-        color="primary"
-        [disabled]="form.invalid"
-        >
-        <!-- (click)="onRegister()" -->
-        Register
-      </button>
-      <button mat-button color="warn" (click)="changeTab.emit(0)">Cancel</button>
-    </div>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline">
+      <mat-label>First Name</mat-label>
+      <input required formControlName="first_name" matInput type="text" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Last Name</mat-label>
+      <input required formControlName="last_name" matInput type="text" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Date Of Birth</mat-label>
+      <input
+        formControlName="date_of_birth"
+        matInput
+        [matDatepicker]="picker"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Grade Level</mat-label>
+      <mat-select formControlName="grade_level">
+        <mat-option *ngFor="let gl of gradeLevels" [value]="gl.gid">
+          {{ gl.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Phone Number</mat-label>
+      <input required formControlName="phone_number" matInput type="number" />
+    </mat-form-field>
+  </form>
+  <div class="button-section">
+    <button mat-raised-button color="primary" [disabled]="form.invalid">
+      <!-- (click)="onRegister()" -->
+      insert
+    </button>
+    <button mat-button color="warn" (click)="changeTab.emit(0)">Cancel</button>
   </div>
-  
+</div>
