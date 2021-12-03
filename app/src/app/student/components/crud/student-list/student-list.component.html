@@ -1,63 +1,159 @@
-<mat-table #table [dataSource]="dataSource" matSort>
-  <ng-container matColumnDef="Name">
-    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-    <mat-cell *matCellDef="let user">
+<mat-table #table [dataSource]="st.getStudentList | async" matSort>
+  <ng-container matColumnDef="firstName">
+    <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
+    <mat-cell *matCellDef="let student">
       <ng-container
-        *ngIf="!editUsr || !user.Name || user.Name !== editUsr.Name"
+        *ngIf="!editUsr || !student.sid || student.sid !== editUsr.sid"
       >
-        <p>{{ user.Name }}</p>
+        <p>{{ student.first_name }}</p>
       </ng-container>
-      <ng-container *ngIf="editUsr && user.Name && user.Name === editUsr.Name">
+      <ng-container
+        *ngIf="editUsr && student.sid && student.sid === editUsr.sid"
+      >
         <mat-form-field appearance="outline">
           <input
             matInput
             placeholder="Name Name"
             [disabled]="editdisabled"
             name="name"
-            [(ngModel)]="user.Name"
+            [(ngModel)]="student.first_name"
           />
         </mat-form-field>
       </ng-container>
     </mat-cell>
   </ng-container>
-  <ng-container matColumnDef="Status">
-    <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
-    <mat-cell *matCellDef="let user">
+  <ng-container matColumnDef="lastName">
+    <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
+    <mat-cell *matCellDef="let student">
       <ng-container
-        *ngIf="!editUsr || !user.Name || user.Name !== editUsr.Name"
+        *ngIf="!editUsr || !student.sid || student.sid !== editUsr.sid"
       >
-        <p>{{ user.Status }}</p>
+        <p>{{ student.last_name }}</p>
       </ng-container>
-      <ng-container *ngIf="editUsr && user.Name && user.Name === editUsr.Name">
+      <ng-container
+        *ngIf="editUsr && student.sid && student.sid === editUsr.sid"
+      >
         <mat-form-field appearance="outline">
           <input
             matInput
-            placeholder="Status"
+            placeholder="Name Name"
             [disabled]="editdisabled"
-            name="status"
-            [(ngModel)]="user.Status"
+            name="name"
+            [(ngModel)]="student.last_name"
           />
         </mat-form-field>
       </ng-container>
     </mat-cell>
   </ng-container>
+  <ng-container matColumnDef="dateOfBirth">
+    <mat-header-cell *matHeaderCellDef>Date Of Birth</mat-header-cell>
+    <mat-cell *matCellDef="let student">
+      <ng-container
+        *ngIf="!editUsr || !student.sid || student.sid !== editUsr.sid"
+      >
+        <p>{{ student.date_of_birth | date:shortDate}}</p>
+      </ng-container>
+      <ng-container
+        *ngIf="editUsr && student.sid && student.sid === editUsr.sid"
+      >
+        <mat-form-field appearance="outline">
+          <input
+            [(ngModel)]="student.date_of_birth"
+            matInput
+            [matDatepicker]="picker"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </ng-container>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="classID">
+    <mat-header-cell *matHeaderCellDef>Class Name</mat-header-cell>
+    <mat-cell *matCellDef="let student">
+      <ng-container
+        *ngIf="!editUsr || !student.sid || student.sid !== editUsr.sid"
+      >
+        <p>{{ student.classname }}</p>
+      </ng-container>
+      <ng-container
+        *ngIf="editUsr && student.sid && student.sid === editUsr.sid"
+      >
+        <mat-form-field appearance="outline">
+          <mat-select [(ngModel)]="student.classcid">
+            <mat-option
+              *ngFor="let cl of st.getClassesList | async"
+              [value]="cl.classcid"
+            >
+              {{ cl.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="phoneNumber">
+    <mat-header-cell *matHeaderCellDef>Phone Number</mat-header-cell>
+    <mat-cell *matCellDef="let student">
+      <ng-container
+        *ngIf="!editUsr || !student.sid || student.sid !== editUsr.sid"
+      >
+        <p>{{ student.phone_number }}</p>
+      </ng-container>
+      <ng-container
+        *ngIf="editUsr && student.sid && student.sid === editUsr.sid"
+      >
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            placeholder="Name Name"
+            [disabled]="editdisabled"
+            name="name"
+            [(ngModel)]="student.phone_number"
+          />
+        </mat-form-field>
+      </ng-container>
+    </mat-cell>
+  </ng-container>
+
   <!-- ACTION -->
   <ng-container matColumnDef="action">
     <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
-    <mat-cell *matCellDef="let user">
+    <mat-cell *matCellDef="let student">
       <ng-container
-        *ngIf="!editUsr || !user.Name || user.Name !== editUsr.Name"
+        *ngIf="!editUsr || !student.sid || student.sid !== editUsr.sid"
       >
-        <mat-icon matTooltip="edit" (click)="editROw(user)">edit</mat-icon>
+        <button
+          mat-stroked-button
+          color="accent"
+          matTooltip="edit"
+          (click)="editROw(student)"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          mat-stroked-button
+          color="warn"
+          matTooltip="edit"
+          (click)="onDelete(student)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
       </ng-container>
-      <ng-container *ngIf="editUsr && user.Name && user.Name === editUsr.Name">
+
+      <ng-container
+        *ngIf="editUsr && student.sid && student.sid === editUsr.sid"
+      >
         <button
           mat-raised-button
           color="accent"
           matTooltip="Update"
           class="mr-10 mb-6"
           [disabled]="editdisabled"
-          (click)="updateEdit()"
+          (click)="updateEdit(student)"
         >
           Update
         </button>
@@ -78,5 +174,5 @@
     *matHeaderRowDef="displayedColumns; sticky: true"
   ></mat-header-row>
 
-  <mat-row *matRowDef="let user; columns: displayedColumns"></mat-row>
+  <mat-row *matRowDef="let student; columns: displayedColumns"></mat-row>
 </mat-table>

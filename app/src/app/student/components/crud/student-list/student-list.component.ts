@@ -1,16 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { StudentService } from 'src/app/student/shared/student.service';
 
-export interface PeriodicElement {
-  Name: string;
-  Status: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { Name: 'ali', Status: 'good' },
-  { Name: 'alireza', Status: 'very good' },
-  { Name: 'homan', Status: 'bad' },
-  { Name: 'asghar', Status: 'terrible' },
-];
 @Component({
   selector: 'app-student-list',
   templateUrl: './student-list.component.html',
@@ -20,24 +10,56 @@ export class StudentListComponent implements OnInit {
   editUsr: any;
   oldUsr: any;
   editdisabled: boolean;
-  displayedColumns: string[] = ['Name', 'Status', 'action'];
-  dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = [
+    'firstName',
+    'lastName',
+    'dateOfBirth',
+    'classID',
+    'phoneNumber',
+    'action',
+  ];
 
-  constructor() {}
+  constructor(public st: StudentService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.st.StudentList();
+    this.st.getClasses();
+  }
 
-  editROw(usr: any) {
+  editROw(st: any) {
     this.editdisabled = false;
-    this.editUsr = usr && usr.Name ? usr : {};
+    this.editUsr = st && st.sid ? st : {};
     this.oldUsr = { ...this.editUsr };
   }
 
-  updateEdit() {
+  updateEdit(student) {
     this.editdisabled = true;
     this.editUsr = null;
+    let data = {
+      sid: student.sid,
+      firstName: student.first_name,
+      lastName: student.last_name,
+      dateOfBirth: student.date_of_birth,
+      phoneNumber: student.phone_number,
+      classID: student.classcid,
+    };
+
+    this.st.updateStudent(data).subscribe((res) => {
+      if (res.Success) {
+        this.st.StudentList();
+      }
+    });
   }
   cancelEdit() {
     this.editUsr = null;
+    this.st.StudentList();
+  }
+
+  onDelete(item) {
+    this.st.deleteStudent(item.sid).subscribe((res) => {
+      if (res.Success) {
+        this.st.StudentList();
+      }
+    });
   }
 }

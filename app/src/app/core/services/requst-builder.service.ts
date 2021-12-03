@@ -1,9 +1,9 @@
 import { HttpVerb } from '../types';
 import { catchError } from 'rxjs/operators';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { environment } from 'apps/angular-nestjs-redis-e-shop/src/environments/environment';
 import { Observable, of, throwError } from 'rxjs';
 import { GlobalService } from './global.service';
+import { environment } from 'src/environments/environment';
 
 export function ApiRequest(verb: HttpVerb = 'GET'): RequstBuilderService {
   return new RequstBuilderService(verb);
