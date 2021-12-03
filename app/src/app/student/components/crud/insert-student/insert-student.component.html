@@ -2,38 +2,41 @@
   <form [formGroup]="form">
     <mat-form-field appearance="outline">
       <mat-label>First Name</mat-label>
-      <input required formControlName="first_name" matInput type="text" />
+      <input required formControlName="firstName" matInput type="text" />
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Last Name</mat-label>
-      <input required formControlName="last_name" matInput type="text" />
+      <input required formControlName="lastName" matInput type="text" />
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Date Of Birth</mat-label>
-      <input
-        formControlName="date_of_birth"
-        matInput
-        [matDatepicker]="picker"
-      />
+      <input formControlName="dateOfBirth" matInput [matDatepicker]="picker" />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Grade Level</mat-label>
-      <mat-select formControlName="grade_level">
-        <mat-option *ngFor="let gl of gradeLevels" [value]="gl.gid">
+      <mat-select formControlName="classID">
+        <mat-option
+          *ngFor="let gl of st.getGradeLevelList | async"
+          [value]="gl.gid"
+        >
           {{ gl.name }}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Phone Number</mat-label>
-      <input required formControlName="phone_number" matInput type="number" />
+      <input required formControlName="phoneNumber" matInput type="number" />
     </mat-form-field>
   </form>
   <div class="button-section">
-    <button mat-raised-button color="primary" [disabled]="form.invalid">
-      <!-- (click)="onRegister()" -->
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="onInsert()"
+      [disabled]="form.invalid"
+    >
       insert
     </button>
     <button mat-button color="warn" (click)="changeTab.emit(0)">Cancel</button>

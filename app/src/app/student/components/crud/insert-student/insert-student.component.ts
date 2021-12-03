@@ -1,10 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-
-interface GradeLevel {
-  gid: string;
-  name: string;
-}
+import { Router } from '@angular/router';
+import { StudentService } from '../../../shared/student.service';
 
 @Component({
   selector: 'app-insert-student',
@@ -15,22 +12,27 @@ export class InsertStudentComponent implements OnInit {
   @Output() changeTab = new EventEmitter<number>();
 
   form = this.fb.group({
-    first_name: '',
-    last_name: '',
-    date_of_birth: '',
-    grade_level: '',
-    phone_number: '',
+    firstName: '',
+    lastName: '',
+    dateOfBirth: '',
+    phoneNumber: '',
+    classID: '',
   });
 
-  gradeLevels: GradeLevel[] = [
-    { gid: '1', name: 'Freshman' },
-    { gid: '2', name: 'Sophomore' },
-    { gid: '3', name: 'Junior' },
-    { gid: '4', name: 'Senior' },
-  ];
+  constructor(
+    private readonly fb: FormBuilder,
+    public st: StudentService,
+    private router: Router
+  ) {}
+  ngOnInit(): void {
+    this.st.getGradelevel();
+  }
 
-  constructor(private readonly fb: FormBuilder) {}
-  ngOnInit(): void {}
-
-  onInsert() {}
+  onInsert() {
+    this.st.student_insert(this.form.value).subscribe((res) => {
+      if (res.Success) {
+        this.router.navigate(['/student/student-list']);
+      }
+    });
+  }
 }
